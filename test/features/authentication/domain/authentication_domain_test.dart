@@ -6,7 +6,7 @@ import 'package:test_rnd/features/authentication/domain/authentication_domain.da
 void main() {
   late AuthenticationDomain authentication;
   setUp(() {
-    authentication = AuthenticationDomain(AuthenticationRemoteData());
+    authentication = AuthenticationDomain(client: AuthenticationRemoteData());
   });
 
   test('should throw an execption for invalid email and password', () {
