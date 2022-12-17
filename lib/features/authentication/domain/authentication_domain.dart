@@ -3,7 +3,7 @@ import 'package:test_rnd/features/authentication/data/repository/authentiocation
 
 class AuthenticationDomain implements AuthenticationRepo {
   final AuthenticationRepo client;
-  AuthenticationDomain(this.client);
+  AuthenticationDomain({required this.client});
 
   @override
   Future<User> login({required String email, required String password}) {

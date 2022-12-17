@@ -2,7 +2,7 @@ part of 'authentication_cubit.dart';
 
 enum LoginStatus { initial, loading, success, failure }
 
-class AuthenticationState {
+class AuthenticationState extends Equatable {
   final LoginStatus status;
   final User? user;
   final Exception? exception;
@@ -12,6 +12,9 @@ class AuthenticationState {
     this.user,
     this.exception,
   });
+
+  @override
+  List<Object?> get props => [status, user, exception];
 
   AuthenticationState copyWith({
     LoginStatus? status,
