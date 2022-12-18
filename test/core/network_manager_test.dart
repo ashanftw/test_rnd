@@ -14,7 +14,7 @@ void main() {
 
   setUp(() {
     mockClient = MockClient();
-    networkManager = NetworkManager();
+    networkManager = NetworkManager(client: mockClient);
   });
 
   tearDown(() {

@@ -30,10 +30,12 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           children: [
             TextFormField(
+              key: const Key('email_id'),
               controller: txtEmail,
               validator: (value) => Validator.validateEmail(value!),
             ),
             TextFormField(
+              key: const Key('password'),
               controller: txtPassword,
               validator: (value) => Validator.validatePassword(value!),
             ),
