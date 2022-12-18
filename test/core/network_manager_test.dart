@@ -24,10 +24,11 @@ void main() {
     test('Should return jsondecoded valus for http success call', () async {
       // ARRANGE
       String url = 'https://api.sampleapis.com/avatar/info';
-      when(mockClient.get(Uri.parse(url))).thenAnswer((realInvocation) async =>
-          http.Response(
-              '[{"id": 3,"name": "Clementine Bauch", "email": "Nathan@yesenia.net"}]',
-              200));
+      when(mockClient.get(Uri.parse(url), headers: {
+        'content-type': 'application/json'
+      })).thenAnswer((realInvocation) async => http.Response(
+          '[{"id": 3,"name": "Clementine Bauch", "email": "Nathan@yesenia.net"}]',
+          200));
 
       // ACT & ASSERT
       expect(await networkManager.sendRequest(path: url), isA<dynamic>());
@@ -36,8 +37,9 @@ void main() {
     test('Should throw an exception if something went wrong', () async {
       // ARRANGE
       String url = 'https://api.sampleapis.com/avatar/';
-      when(mockClient.get(Uri.parse(url))).thenAnswer(
-          (realInvocation) async => http.Response('not found', 400));
+      when(mockClient.get(Uri.parse(url), headers: {
+        'content-type': 'application/json'
+      })).thenAnswer((realInvocation) async => http.Response('not found', 400));
 
       // ACT & ASSERT
       expect(networkManager.sendRequest(path: url), throwsException);
