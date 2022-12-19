@@ -33,6 +33,7 @@ void main() {
 
     //Assert
     expect(authenticationCubit.state.status, LoginStatus.failure);
+    expect(authenticationCubit.state.user, null);
     expect(authenticationCubit.state.exception, isA<Exception>());
   });
 
@@ -49,5 +50,6 @@ void main() {
     //Assert
     expect(authenticationCubit.state.status, LoginStatus.success);
     expect(authenticationCubit.state.user, isA<User>());
+    expect(authenticationCubit.state.exception, null);
   });
 }

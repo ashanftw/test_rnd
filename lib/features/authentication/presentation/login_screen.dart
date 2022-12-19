@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_rnd/features/authentication/data/repository/authentiocation_repo.dart';
+import 'package:test_rnd/features/authentication/data_sources/authentication_remote_data_source.dart';
+import 'package:test_rnd/features/authentication/presentation/cubit/authentication_cubit.dart';
+import 'package:test_rnd/features/dashboard/presentation/home_screen.dart';
 import 'package:test_rnd/validators/validator.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -23,30 +28,46 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              key: const Key('email_id'),
-              controller: txtEmail,
-              validator: (value) => Validator.validateEmail(value!),
+    return BlocProvider(
+      create: (_) => AuthenticationCubit(client: AuthenticationRemoteData()),
+      child: BlocConsumer<AuthenticationCubit, AuthenticationState>(
+        listener: (context, authState) {
+          if (authState.status == LoginStatus.success) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: ((context) => const HomeScreen())));
+          }
+        },
+        builder: (context, authState) {
+          return Scaffold(
+            appBar: AppBar(),
+            body: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    key: const Key('email_id'),
+                    controller: txtEmail,
+                    validator: (value) => Validator.validateEmail(value!),
+                  ),
+                  TextFormField(
+                    key: const Key('password'),
+                    controller: txtPassword,
+                    validator: (value) => Validator.validatePassword(value!),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        context.read<AuthenticationCubit>().login(
+                            email: txtEmail.text, password: txtPassword.text);
+                      }
+                    },
+                    child: const Text('Login'),
+                  )
+                ],
+              ),
             ),
-            TextFormField(
-              key: const Key('password'),
-              controller: txtPassword,
-              validator: (value) => Validator.validatePassword(value!),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {}
-              },
-              child: const Text('Login'),
-            )
-          ],
-        ),
+          );
+        },
       ),
     );
   }
