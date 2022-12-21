@@ -3,8 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_rnd/features/authentication/data/repository/authentiocation_repo.dart';
 import 'package:test_rnd/features/authentication/data_sources/authentication_remote_data_source.dart';
 import 'package:test_rnd/features/authentication/presentation/cubit/authentication_cubit.dart';
+import 'package:test_rnd/features/dashboard/data_sources/product_remote_data_source.dart';
 import 'package:test_rnd/features/dashboard/presentation/home_screen.dart';
 import 'package:test_rnd/validators/validator.dart';
+import 'package:http/http.dart' as http;
+
+import '../../dashboard/presentation/cubit/dashboard_cubit.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -34,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
         listener: (context, authState) {
           if (authState.status == LoginStatus.success) {
             Navigator.push(context,
-                MaterialPageRoute(builder: ((context) => const HomeScreen())));
+                MaterialPageRoute(builder: ((context) => HomeScreen())));
           }
         },
         builder: (context, authState) {
