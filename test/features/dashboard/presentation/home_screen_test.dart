@@ -23,8 +23,11 @@ void main() {
   });
 
   initWidget(WidgetTester tester) async {
-    when(await dashboardCubit.getProducts())
-        .thenAnswer((_) => Future.value(ProductData()));
+    when(await dashboardCubit.getProducts()).thenAnswer((_) => Future.value(
+            ProductData(products: [
+          Product(id: 1, title: 'title 1'),
+          Product(id: 2, title: 'title 2')
+        ])));
 
     await dashboardCubit.getProducts();
 
@@ -55,5 +58,22 @@ void main() {
 
     //ASSERT
     expect(listView, findsOneWidget);
+  });
+
+  testWidgets('should go to detail screen when tap on list item',
+      (WidgetTester tester) async {
+    // ARRANGE
+    await initWidget(tester);
+
+    //ACT
+    Finder listItem = find.byKey(const Key("list_item_1"));
+
+    await tester.tap(listItem);
+    await tester.pumpAndSettle();
+
+    Finder detailScreen = find.byKey(const Key("detail_screen"));
+
+    //ASSERT
+    expect(detailScreen, findsOneWidget);
   });
 }

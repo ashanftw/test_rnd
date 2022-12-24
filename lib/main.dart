@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_rnd/features/authentication/data_sources/authentication_remote_data_source.dart';
+import 'package:test_rnd/features/authentication/presentation/cubit/authentication_cubit.dart';
+import 'package:test_rnd/features/authentication/presentation/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +28,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const LoginScreen(),
     );
   }
 }

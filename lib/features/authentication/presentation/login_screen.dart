@@ -37,8 +37,14 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocConsumer<AuthenticationCubit, AuthenticationState>(
         listener: (context, authState) {
           if (authState.status == LoginStatus.success) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: ((context) => HomeScreen())));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) => BlocProvider(
+                          create: ((_) => DashboardCubit(
+                              client: ProductRemoteDataSource(http.Client()))..getProducts()),
+                          child: const HomeScreen(),
+                        ))));
           }
         },
         builder: (context, authState) {
