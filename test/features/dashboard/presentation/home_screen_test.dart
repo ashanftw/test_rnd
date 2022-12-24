@@ -22,15 +22,22 @@ void main() {
     dashboardCubit = DashboardCubit(client: mockMockProductRemoteData);
   });
 
+  initWidget(WidgetTester tester) async {
+    when(await dashboardCubit.getProducts())
+        .thenAnswer((_) => Future.value(ProductData()));
+
+    await dashboardCubit.getProducts();
+
+    await tester.pumpWidget(MaterialApp(
+        home: BlocProvider(
+      create: (context) => dashboardCubit,
+      child: const HomeScreen(),
+    )));
+  }
+
   testWidgets('should show home screen', (WidgetTester tester) async {
     // ARRANGE
-    await tester.pumpWidget(
-      MaterialApp(
-          home: BlocProvider(
-        create: (context) => dashboardCubit,
-        child: const HomeScreen(),
-      )),
-    );
+    await initWidget(tester);
 
     // ACT
     Finder home = find.byKey(const Key("home_screen"));
@@ -41,18 +48,7 @@ void main() {
 
   testWidgets('should have product list view', (WidgetTester tester) async {
     // ARRANGE
-    when(await dashboardCubit.getProducts())
-        .thenAnswer((_) => Future.value(ProductData()));
-
-    await dashboardCubit.getProducts();
-
-    await tester.pumpWidget(
-      MaterialApp(
-          home: BlocProvider(
-        create: (context) => dashboardCubit,
-        child: const HomeScreen(),
-      )),
-    );
+    await initWidget(tester);
 
     //ACT
     Finder listView = find.byKey(const Key("product_list_view"));
