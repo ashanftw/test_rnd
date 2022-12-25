@@ -4,6 +4,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:test_rnd/features/authentication/presentation/login_screen.dart';
 
 void main() {
+  const delay = Duration(seconds: 2);
   group("Login Flow Test", () {
     IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -18,8 +19,8 @@ void main() {
       // ACT
       Finder loginButton = find.byType(ElevatedButton);
       await tester.tap(loginButton);
-      await tester
-          .pumpAndSettle(); // await for animations to complete when button click
+      await tester.pumpAndSettle(
+          delay); // await for animations to complete when button click
       Finder emailErrorText = find.text("required_email");
       Finder passwordErrorText = find.text("required_password");
 
@@ -46,8 +47,8 @@ void main() {
       // tap login button
       Finder loginButton = find.byType(ElevatedButton);
       await tester.tap(loginButton);
-      await tester
-          .pumpAndSettle(); // await for animations to complete when button click
+      await tester.pumpAndSettle(
+          delay); // await for animations to complete when button click
       Finder homeScreen = find.byKey(const Key('home_screen'));
 
       // ASSERT
